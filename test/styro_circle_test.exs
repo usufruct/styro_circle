@@ -13,6 +13,13 @@ defmodule StyroCircleTest do
            |> :digraph.no_edges == 0
   end
 
+  test "frequency_map" do
+    {:ok, graph} = StyroCircle.new_graph
+    assert StyroCircle.frequency_map(graph)
+           |> is_map == true
+
+  end
+
   test "add_vertex" do
     {:ok, graph} = StyroCircle.new_graph
     StyroCircle.add_vertex(graph, :foo, {})

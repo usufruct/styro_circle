@@ -1,27 +1,35 @@
 defmodule StyroCircle do
   def new_graph do
     Agent.start_link(fn ->
-      :digraph.new()
+      {:digraph.new(), HashDict.new}
     end)
   end
 
   def digraph(graph) do
-    Agent.get(graph, fn digraph ->
-      digraph
+    Agent.get(graph, fn store ->
+      elem(store, 0)
+    end)
+  end
+
+  def frequency_map(graph) do
+    Agent.get(graph, fn store ->
+      elem(store, 1)
     end)
   end
 
   def add_vertex(graph, vertex, label) do
-    Agent.update(graph, fn digraph ->
+    Agent.update(graph, fn store ->
+      digraph = elem(store, 0)
       :digraph.add_vertex(digraph, vertex, label)
-      digraph
+      store
     end)
   end
 
   def add_edge(graph, vertex1, vertex2, label) do
-    Agent.update(graph, fn digraph ->
+    Agent.update(graph, fn store ->
+      digraph = elem(store, 0)
       :digraph.add_edge(digraph, vertex1, vertex2, label)
-      digraph
+      store
     end)
   end
 end
