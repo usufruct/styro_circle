@@ -17,7 +17,6 @@ defmodule StyroCircleTest do
     {:ok, graph} = StyroCircle.new_graph
     assert StyroCircle.frequency_map(graph)
            |> is_map == true
-
   end
 
   test "add_vertex" do
@@ -35,5 +34,19 @@ defmodule StyroCircleTest do
     StyroCircle.add_edge(graph, :foo, :bar, {})
     assert StyroCircle.digraph(graph)
            |> :digraph.no_edges == 1
+  end
+
+  test "add_edge maintains count of pair occurences" do
+    {:ok, graph} = StyroCircle.new_graph
+    StyroCircle.add_vertex(graph, :foo, {})
+    StyroCircle.add_vertex(graph, :bar, {})
+    StyroCircle.add_edge(graph, :foo, :bar, {})
+
+    assert StyroCircle.frequency_map(graph)
+           |> HashDict.get({}) == 1
+
+    StyroCircle.add_edge(graph, :foo, :bar, {})
+    assert StyroCircle.frequency_map(graph)
+           |> HashDict.get({}) == 2
   end
 end

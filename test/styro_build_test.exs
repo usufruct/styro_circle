@@ -1,4 +1,4 @@
-defmodule StyroBuildTest  do
+defmodule StyroBuildTest do
   use ExUnit.Case
   doctest StyroBuild
 
